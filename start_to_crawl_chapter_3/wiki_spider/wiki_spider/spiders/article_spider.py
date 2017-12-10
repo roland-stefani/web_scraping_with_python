@@ -17,5 +17,5 @@ class ArticleSpider(scrapy.Spider):
         title = response.xpath('//h1[@id="firstHeading"]/text()')[0].extract()
         print('Title is: {}:'.format(title))
         item['title'] = title
-        return title
+        return item
 
