@@ -72,13 +72,7 @@ def main():
     sorted_n_grams = sorted(ngram_list, key=lambda x: x['frequency'], reverse=True)
     print(len(sorted_n_grams))
     print()
-    print()
-    print()
-    print()
     pprint(sorted_n_grams[:50])
-    print()
-    print()
-    print()
 
 
 if __name__ == '__main__':
