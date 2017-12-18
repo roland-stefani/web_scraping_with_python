@@ -65,6 +65,16 @@ def ngrams(data_input, n):
     return output
 
 
+def get_text_summary(sorted_ngrams, original_text):
+
+    summary_sentences = list()
+    text_sentences = re.split('\.|\!|\?', original_text)
+    for ngram in sorted_ngrams:
+
+            if n
+
+    return '\n\n'.join(summary_sentences)
+
 def main():
     content = requests.get(_BASE_URL).text
 
@@ -73,6 +83,12 @@ def main():
     print(len(sorted_n_grams))
     print()
     pprint(sorted_n_grams[:50])
+    print()
+    print()
+    print()
+    summary_n_grams = [ngram['ngram'] for ngram in sorted_n_grams[:5]]
+    summary = get_text_summary(summary_n_grams, content)
+    print(summary)
 
 
 if __name__ == '__main__':
