@@ -70,8 +70,20 @@ def get_text_summary(sorted_ngrams, original_text):
     summary_sentences = list()
     text_sentences = re.split('\.|\!|\?', original_text)
     for ngram in sorted_ngrams:
-
-            if n
+        index = 0
+        while len(text_sentences) > 0:
+            if ngram in text_sentences[index].lower():
+                sentence = text_sentences[index].strip()
+                text_sentences.pop(index)
+                # print(sentence)
+                print()
+                sentence = re.match('('+ sentence +'\s*[\\\.\\\!\\\?])', original_text)
+                if sentence:
+                    print(sentence.groups()[0])
+                    print()
+                break
+            else:
+                index += 1
 
     return '\n\n'.join(summary_sentences)
 
