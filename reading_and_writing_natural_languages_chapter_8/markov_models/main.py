@@ -1,6 +1,8 @@
 import requests
 from random import randint
 
+from pandas.io.sas.sas_constants import index
+
 
 def word_list_sum(word_list):
 
@@ -28,4 +30,37 @@ def build_word_dict(text):
 
     # Make sure punctuation marks are treated as their own "words,"
     # so that they will be included in the Markov chain
-    
+    punctuation = [',', '.', ';', ':']
+    for symbol in punctuation:
+        text = text.replace(symbol, ' ' + symbol + ' ')
+
+    words = text.split(' ')
+    # Filter out empty words
+    words = [word for word in words if word != '']
+
+    word_dict = dict()
+    for index in range(1, len(words)):
+        if words[index-1] not in word_dict:
+            # Create a new dictionary for this word
+            word_dict[words[index-1]] = dict()
+
+        if words[index] not in word_dict[words[index-1]]:
+            word_dict[words[index-1]][words[index]] = 0
+
+        word_dict[words[index-1]][words[index]] += 1
+
+    return word_dict
+
+
+text = requests.get('http://pythonscraping.com/files/inaugurationSpeech.txt').text
+word_dict = build_word_dict(text)
+
+# Generate a Markov chain of length 100
+length = 100
+chain = ''
+current_word = 'I'
+for i in range(0, length):
+    chain += current_word + ' '
+    current_word = retrieve_random_word(word_dict[current_word])
+
+print(chain)
