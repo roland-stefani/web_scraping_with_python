@@ -67,16 +67,50 @@ def ngrams(data_input, n):
 
 def get_text_summary(sorted_ngrams, original_text):
 
+    normalized_text = re.sub('\n+|\t+|\s+', ' ', original_text).strip()
+    with open('normalized_text.txt', 'w') as normalized:
+        normalized.write(normalized_text)
     summary_sentences = list()
-    text_sentences = re.split('\.|\!|\?', original_text)
+    text_sentences = re.split('\.|\!|\?', normalized_text)
     for ngram in sorted_ngrams:
-
-            if n
+        index = 0
+        while len(text_sentences) > 0:
+            if ngram in text_sentences[index].lower():
+                sentence = text_sentences[index]
+                text_sentences.pop(index)
+                print(sentence.strip())
+                print()
+                print()
+                pattern = re.compile('(' + sentence.strip() + '.)')
+                print(pattern)
+                print()
+                print()
+                print()
+                sentence = re.match(pattern, normalized_text)
+                if sentence:
+                    print(sentence.groups())
+                    print()
+                    print()
+                    print()
+                    print()
+                else:
+                    print('no match')
+                    print()
+                    print()
+                    print()
+                    print()
+                    print()
+                break
+            else:
+                index += 1
 
     return '\n\n'.join(summary_sentences)
 
 def main():
     content = requests.get(_BASE_URL).text
+
+    with open('text.txt', 'w') as original_text:
+        original_text.write(content)
 
     ngram_list = ngrams(content, 2)
     sorted_n_grams = sorted(ngram_list, key=lambda x: x['frequency'], reverse=True)
